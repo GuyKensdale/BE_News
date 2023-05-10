@@ -36,3 +36,15 @@ describe("/api/topics", () => {
       });
   });
 });
+describe("GET api ", () => {
+  test("GET - API should return a json with all the available end points ", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((res) => {
+        console.log(res.body);
+        expect(typeof res.body).toEqual("object");
+        expect(res.get("content-type")).toMatch(/application\/json/);
+      });
+  });
+});
