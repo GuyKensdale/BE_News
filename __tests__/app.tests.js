@@ -55,9 +55,7 @@ describe("GET api/articles/ID ", () => {
       .get("/api/articles/1")
       .expect(200)
       .then((res) => {
-        // console.log(res.body.Articles[0]);
         const output = res.body.articles[0];
-        expect(typeof res.body).toEqual("object");
         expect(output).toHaveProperty("author");
         expect(output).toHaveProperty("title");
         expect(output).toHaveProperty("article_id");
@@ -66,6 +64,23 @@ describe("GET api/articles/ID ", () => {
         expect(output).toHaveProperty("created_at");
         expect(output).toHaveProperty("votes");
         expect(output).toHaveProperty("article_img_url");
+        expect(output.article_id).toEqual(1);
+      });
+  });
+  test("GET articles by id should return article with correct properties", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then((res) => {
+        const output = res.body.articles[0];
+        expect(output.author).toEqual(expect.any(String));
+        expect(output.title).toEqual(expect.any(String));
+        expect(output.body).toEqual(expect.any(String));
+        expect(output.topic).toEqual(expect.any(String));
+        expect(output.created_at).toEqual(expect.any(String));
+        expect(output.article_img_url).toEqual(expect.any(String));
+        expect(output.article_id).toEqual(expect.any(Number));
+        expect(output.votes).toEqual(expect.any(Number));
       });
   });
   test("GET articles by id should return a 404 and msg of 'no such article !' if id is not in the db", () => {
@@ -73,7 +88,6 @@ describe("GET api/articles/ID ", () => {
       .get("/api/articles/90")
       .expect(404)
       .then((res) => {
-        console.log(res.body.msg);
         expect(res.body.msg).toEqual("No such article !");
       });
   });
