@@ -42,9 +42,10 @@ describe("GET api ", () => {
       .get("/api")
       .expect(200)
       .then((res) => {
-        console.log(res.body);
         expect(typeof res.body).toEqual("object");
         expect(res.get("content-type")).toMatch(/application\/json/);
+        expect(res.body).toHaveProperty("GET /api/articles");
+        expect(res.body).toHaveProperty("GET /api/topics");
       });
   });
 });
