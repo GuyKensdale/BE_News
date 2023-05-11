@@ -115,6 +115,7 @@ describe("GET api/article", () => {
       .expect(200)
       .then((res) => {
         const articles = res.body.articles;
+        expect(articles.length > 0);
         articles.forEach((article) => {
           expect(typeof article).toEqual("object");
           expect(article).toHaveProperty("author");
@@ -134,6 +135,7 @@ describe("GET api/article", () => {
       .expect(200)
       .then((res) => {
         const articles = res.body.articles;
+        expect(articles.length > 0);
         articles.forEach((article) => {
           expect(article.author).toEqual(expect.any(String));
           expect(article.title).toEqual(expect.any(String));
