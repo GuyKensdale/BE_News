@@ -114,29 +114,49 @@ describe("GET api/article", () => {
       .get("/api/articles")
       .expect(200)
       .then((res) => {
-        const output = res.body.articles[0];
-        expect(typeof res.body).toEqual("object");
-        expect(output).toHaveProperty("author");
-        expect(output).toHaveProperty("title");
-        expect(output).toHaveProperty("article_id");
-        expect(output).toHaveProperty("topic");
-        expect(output).toHaveProperty("created_at");
-        expect(output).toHaveProperty("votes");
-        expect(output).toHaveProperty("article_img_url");
+        const articles = res.body.articles;
+        articles.forEach((article) => {
+          expect(typeof article).toEqual("object");
+          expect(article).toHaveProperty("author");
+          expect(article).toHaveProperty("title");
+          expect(article).toHaveProperty("article_id");
+          expect(article).toHaveProperty("topic");
+          expect(article).toHaveProperty("created_at");
+          expect(article).toHaveProperty("votes");
+          expect(article).toHaveProperty("article_img_url");
+        });
       });
   });
+
   test("GET articles with correct properties", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
       .then((res) => {
-        const output = res.body.articles[0];
+        const articles = res.body.articles;
+        articles.forEach((article) => {
+          expect(article.author).toEqual(expect.any(String));
+          expect(article.title).toEqual(expect.any(String));
+          expect(article.body).toEqual(expect.any(String));
+          expect(article.topic).toEqual(expect.any(String));
+          expect(article.created_at).toEqual(expect.any(String));
+          expect(article.article_img_url).toEqual(expect.any(String));
+          expect(article.article_id).toEqual(expect.any(Number));
+          expect(article.votes).toEqual(expect.any(Number));
+        });
+      });
+  });
+});
+
+describe("GET /api/articles/:article_id/comments", () => {
+  test("GET articles with correct data type ", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((res) => {
+        const output = res.body.comments[0];
         expect(output.author).toEqual(expect.any(String));
-        expect(output.title).toEqual(expect.any(String));
-        expect(output.body).toEqual(expect.any(String));
-        expect(output.topic).toEqual(expect.any(String));
         expect(output.created_at).toEqual(expect.any(String));
-        expect(output.article_img_url).toEqual(expect.any(String));
         expect(output.article_id).toEqual(expect.any(Number));
         expect(output.votes).toEqual(expect.any(Number));
       });
