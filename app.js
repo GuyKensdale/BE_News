@@ -2,14 +2,16 @@ const express = require("express");
 const app = express();
 const { getTopics } = require("./controllers/topics.controller");
 const { getArticles } = require("./controllers/article.controllers");
+const { getComments } = require("./controllers/article.controllers");
 const endPoints = require("./endpoints.json");
 
 app.get("/api", (req, res) => {
   res.json(endPoints);
 });
 app.get("/api/topics", getTopics);
+app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id", getArticles);
-
+app.get("/api/articles/:article_id/comments", getComments);
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
 });
@@ -22,6 +24,3 @@ app.use((err, req, res, next) => {
     res.status(500).send({ msg: "Internal Server Error" });
   }
 });
-
-//catch block
-//500 status code err for anything not covered
