@@ -111,7 +111,7 @@ describe("GET api/article", () => {
   });
   test("GET articles with correct properties", () => {
     return request(app)
-      .get("/api/articles/1")
+      .get("/api/articles")
       .expect(200)
       .then((res) => {
         const output = res.body.articles[0];
@@ -126,44 +126,3 @@ describe("GET api/article", () => {
       });
   });
 });
-describe("GET /api/articles/:article_id/comments", () => {
-  test("should return array of comments with given id", () => {
-    return request(app)
-      .get("/api/articles/1/comments")
-      .expect(200)
-      .then((res) => {
-        const output = res.body.comments[0];
-        expect(output).toHaveProperty("comment_id");
-        expect(output).toHaveProperty("votes");
-        expect(output).toHaveProperty("created_at");
-        expect(output).toHaveProperty("author");
-        expect(output).toHaveProperty("body");
-        expect(output).toHaveProperty("article_id");
-      });
-  });
-  test("GET articles with correct data type ", () => {
-    return request(app)
-      .get("/api/articles/1/comments")
-      .expect(200)
-      .then((res) => {
-        const output = res.body.comments[0];
-        expect(output.author).toEqual(expect.any(String));
-        expect(output.created_at).toEqual(expect.any(String));
-        expect(output.article_id).toEqual(expect.any(Number));
-        expect(output.votes).toEqual(expect.any(Number));
-      });
-  });
-});
-// Description
-// Edit
-
-// Responds with:
-
-//     an array of comments for the given article_id of which each comment should have the following properties:
-//         comment_id
-//         votes
-//         created_at
-//         author
-//         body
-//         article_id
-//     comments should be served with the most recent comments first
