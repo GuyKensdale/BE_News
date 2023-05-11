@@ -1,6 +1,6 @@
 const { selectAllArticles } = require("../models/AllArticlesmodel");
 const { selectArticleById } = require("../models/articleByIdModel");
-const { selectArticlesComments } = require("../models/articleCommentsModel");
+// const { selectArticlesComments } = require("../models/articleCommentsModel");
 exports.getArticlesById = (req, res, next) => {
   const objId = req.params;
   const id = objId.article_id;

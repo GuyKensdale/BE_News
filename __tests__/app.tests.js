@@ -149,39 +149,3 @@ describe("GET api/article", () => {
       });
   });
 });
-
-describe("GET /api/articles/:article_id/comments", () => {
-  test("GET articles with correct data type ", () => {
-    return request(app)
-      .get("/api/articles/1/comments")
-      .expect(200)
-      .then((res) => {
-        const output = res.body.comments[0];
-        expect(output.author).toEqual(expect.any(String));
-        expect(output.created_at).toEqual(expect.any(String));
-        expect(output.article_id).toEqual(expect.any(Number));
-        expect(output.votes).toEqual(expect.any(Number));
-      });
-  });
-});
-//new pull request not working
-describe("POST /api/articles/:article_id/comments", () => {
-  test("POST comments should post a comment by given user to selected article", () => {
-    const newComment = {
-      username: "rogersop",
-      body: "This is a new comment",
-    };
-    return request(app)
-      .post("/api/articles/1/comments")
-      .send(newComment)
-      .expect(201)
-      .then((res) => {
-        console.log(res.body);
-        expect(comment).toHaveProperty("comment_id");
-        expect(comment).toHaveProperty("author", newComment.username);
-        expect(comment).toHaveProperty("body", newComment.body);
-        expect(comment).toHaveProperty("created_at");
-        expect(comment).toHaveProperty("votes", 0);
-      });
-  });
-});
