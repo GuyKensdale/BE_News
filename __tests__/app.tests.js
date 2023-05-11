@@ -150,7 +150,7 @@ describe("GET api/article", () => {
   });
 });
 describe("GET /api/articles/:article_id/comments", () => {
-  test("GET articles with correct data type ", () => {
+  test("GET article comments with correct data type ", () => {
     return request(app)
       .get("/api/articles/1/comments")
       .expect(200)
@@ -159,7 +159,34 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(output.author).toEqual(expect.any(String));
         expect(output.created_at).toEqual(expect.any(String));
         expect(output.article_id).toEqual(expect.any(Number));
+        expect(output.comment_id).toEqual(expect.any(Number));
         expect(output.votes).toEqual(expect.any(Number));
+      });
+  });
+  test("GET article comments with no comments", () => {
+    return request(app)
+      .get("/api/articles/8/comments")
+      .expect(200)
+      .then((res) => {
+        const output = res.body.comments;
+        expect(output).toEqual([]);
+      });
+  });
+  test("GET article comments should return 400 if article_id is not a number", () => {
+    return request(app)
+      .get("/api/articles/not-a-number/comments")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid article_id");
+      });
+  });
+
+  test("GET article comments should return 404 if article_id does not exist", () => {
+    return request(app)
+      .get("/api/articles/999/comments")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Article not found");
       });
   });
 });
