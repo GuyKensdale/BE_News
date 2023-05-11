@@ -18,15 +18,4 @@ exports.getAllArticles = (req, res, next) => {
     .catch(next);
 };
 
-exports.getComments = (req, res, next) => {
-  const objId = req.params;
-  const id = objId.article_id;
-  const endpoint = "/comments";
-
-  selectArticlesComments(id, endpoint)
-    .then((comments) => {
-      res.status(200).send({ comments });
-    })
-    .catch(next);
-};
 exports.postComments = (req, res, next) => {};
