@@ -8,7 +8,6 @@ exports.postComments = (req, res, next) => {
     const objId = req.params;
     const id = objId.article_id;
     const com = JSON.parse(body);
-    console.log(com);
     postCommentToId(id, com)
       .then((comment) => {
         res.status(201).send({ comment });

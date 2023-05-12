@@ -1,6 +1,5 @@
 const connection = require("../db/connection");
 exports.postCommentToId = (id, com) => {
-  console.log(com.username);
   return connection
     .query(
       `INSERT INTO comments (article_id, author, body)
