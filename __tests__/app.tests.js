@@ -160,7 +160,6 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(201)
       .then((res) => {
-        console.log(res.body);
         expect(res.body.comment[0]).toHaveProperty("comment_id");
         expect(res.body.comment[0]).toHaveProperty(
           "author",
