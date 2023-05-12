@@ -11,7 +11,7 @@ exports.postComments = (req, res, next) => {
     console.log(com);
     postCommentToId(id, com)
       .then((comment) => {
-        res.status(200).send({ comment });
+        res.status(201).send({ comment });
       })
       .catch(next);
   });

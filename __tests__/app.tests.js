@@ -149,23 +149,26 @@ describe("GET api/article", () => {
       });
   });
 });
-// describe("POST /api/articles/:article_id/comments", () => {
-//   test("POST comments should post a comment by given user to selected article", () => {
-//     const newComment = {
-//       username: "rogersop",
-//       body: "This is a new comment",
-//     };
-//     return request(app)
-//       .post("/api/articles/1/comments")
-//       .send(newComment)
-//       .expect(201)
-//       .then((res) => {
-//         console.log(res.body);
-//         expect(res.body.comment).toHaveProperty("comment_id");
-//         expect(res.body.comment).toHaveProperty("author", newComment.username);
-//         expect(res.body.comment).toHaveProperty("body", newComment.body);
-//         expect(res.body.comment).toHaveProperty("created_at");
-//         expect(res.body.comment).toHaveProperty("votes", 0);
-//       });
-//   });
-// });
+describe("POST /api/articles/:article_id/comments", () => {
+  test("POST comments should post a comment by given user to selected article", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is a new comment",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then((res) => {
+        console.log(res.body);
+        expect(res.body.comment[0]).toHaveProperty("comment_id");
+        expect(res.body.comment[0]).toHaveProperty(
+          "author",
+          newComment.username
+        );
+        expect(res.body.comment[0]).toHaveProperty("body", newComment.body);
+        expect(res.body.comment[0]).toHaveProperty("created_at");
+        expect(res.body.comment[0]).toHaveProperty("votes", 0);
+      });
+  });
+});
