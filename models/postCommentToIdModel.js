@@ -33,7 +33,6 @@ exports.postCommentToId = (id, com) => {
     })
     .then((result) => {
       const comments = result.rows;
-      console.log(comments);
       return comments;
     });
 };

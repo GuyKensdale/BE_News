@@ -1,4 +1,5 @@
 const { postCommentToId } = require("../models/postCommentToIdModel");
+const { postNewVotes } = require("../models/postNewVotesModel");
 exports.postComments = (req, res, next) => {
   let body = "";
   req.on("data", (chunk) => {
@@ -14,4 +15,15 @@ exports.postComments = (req, res, next) => {
       })
       .catch(next);
   });
+};
+
+exports.updateArticleVotes = (req, res, next) => {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
+  console.log(req.params, "inside controller");
+  postNewVotes(article_id, inc_votes)
+    .then((article) => {
+      res.status(200).json({ article });
+    })
+    .catch(next);
 };

@@ -251,3 +251,47 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+describe("/api/articles/:article_id", () => {
+  test("PATCH /api/articles/:article_id - successful update", () => {
+    const newVote = { inc_votes: 1 };
+    return request(app)
+      .patch(`/api/articles/1`)
+      .send(newVote)
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toHaveProperty("article");
+        expect(res.body.article.votes).toBe(101);
+      });
+  });
+
+  test("PATCH /api/articles/:article_id - article not found", () => {
+    const newVote = { inc_votes: 1 };
+    return request(app)
+      .patch(`/api/articles/999`)
+      .send(newVote)
+      .expect(404)
+      .then((res) => {
+        expect(res.body).toHaveProperty("msg", "Article not found");
+      });
+  });
+  test("PATCH /api/articles/:article_id - missing inc_votes field", () => {
+    return request(app)
+      .patch(`/api/articles/3`)
+      .send({})
+      .expect(400)
+      .then((res) => {
+        expect(res.body).toHaveProperty("msg", "Invalid inc_votes value");
+      });
+  });
+
+  test("PATCH /api/articles/:article_id - inc_votes with non-numeric value", () => {
+    const newVote = { inc_votes: "a" };
+    return request(app)
+      .patch(`/api/articles/4`)
+      .send(newVote)
+      .expect(400)
+      .then((res) => {
+        expect(res.body).toHaveProperty("msg", "Invalid inc_votes value");
+      });
+  });
+});

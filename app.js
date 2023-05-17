@@ -6,7 +6,10 @@ const {
   getComments,
   getAllArticles,
 } = require("./controllers/get.article.controllers");
-const { postComments } = require("./controllers/post.article.controllers");
+const {
+  postComments,
+  updateArticleVotes,
+} = require("./controllers/post.article.controllers");
 
 const endPoints = require("./endpoints.json");
 
@@ -18,6 +21,8 @@ app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticlesById);
 app.get("/api/articles/:article_id/comments", getComments);
 app.post("/api/articles/:article_id/comments", postComments);
+app.use(express.json());
+app.patch("/api/articles/:article_id", updateArticleVotes);
 
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
