@@ -190,3 +190,64 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("POST comments should post a comment by given user to selected article", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is a new comment",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then((res) => {
+        expect(res.body.comment[0]).toHaveProperty("comment_id");
+        expect(res.body.comment[0]).toHaveProperty(
+          "author",
+          newComment.username
+        );
+        expect(res.body.comment[0]).toHaveProperty("body", newComment.body);
+        expect(res.body.comment[0]).toHaveProperty("created_at");
+        expect(res.body.comment[0]).toHaveProperty("votes", 0);
+      });
+  });
+  test("POST comments should throw err when request is done wrong missing body ", () => {
+    const newComment = {
+      username: "rogersop",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("No comment body provided!");
+      });
+  });
+
+  test("POST comments should throw err when request is done wrong , missing username ", () => {
+    const newComment = {
+      body: "This is a new comment",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid username");
+      });
+  });
+  test("POST comments should throw err when request is done wrong , missing id ", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is a new comment",
+    };
+    return request(app)
+      .post("/api/articles//comments")
+      .send(newComment)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Not Found");
+      });
+  });
+});

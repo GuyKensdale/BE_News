@@ -17,7 +17,6 @@ exports.getAllArticles = (req, res, next) => {
     })
     .catch(next);
 };
-
 exports.getComments = (req, res, next) => {
   const objId = req.params;
   const id = objId.article_id;
