@@ -170,4 +170,30 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(res.body.comment[0]).toHaveProperty("votes", 0);
       });
   });
+  describe("POST /api/articles/:article_id/comments", () => {
+    test("POST comments should throw err when request is done wrong missing body ", () => {
+      const newComment = {
+        username: "rogersop",
+      };
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send(newComment)
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("Bad Request");
+        });
+    });
+    test("POST comments should throw err when request is done wrong , missing id ", () => {
+      const newComment = {
+        body: "This is a new comment",
+      };
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send(newComment)
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("Bad Request");
+        });
+    });
+  });
 });
