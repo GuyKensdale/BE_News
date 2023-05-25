@@ -237,6 +237,19 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(res.body.msg).toBe("Invalid username");
       });
   });
+  test("POST comments should throw err when request is done wrong , incorrect username ", () => {
+    const newComment = {
+      username: "3423424",
+      body: "This is a new comment",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Username does not exist!");
+      });
+  });
   test("POST comments should throw err when request is done wrong , missing id ", () => {
     const newComment = {
       username: "rogersop",
@@ -248,6 +261,19 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not Found");
+      });
+  });
+  test("POST comments should throw err when request is done wrong , invalid id ", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "This is a new comment",
+    };
+    return request(app)
+      .post("/api/articles/45345435/comments")
+      .send(newComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid article ID!");
       });
   });
 });
@@ -267,7 +293,7 @@ describe("/api/articles/:article_id", () => {
   test("PATCH /api/articles/:article_id - article not found", () => {
     const newVote = { inc_votes: 1 };
     return request(app)
-      .patch(`/api/articles/999`)
+      .patch(`/api/articles/9999`)
       .send(newVote)
       .expect(404)
       .then((res) => {
