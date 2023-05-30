@@ -13,7 +13,11 @@ const {
 } = require("./controllers/post.article.controllers");
 
 const endPoints = require("./endpoints.json");
-
+app.use(cors());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.get("/api", (req, res) => {
   res.json(endPoints);
 });
@@ -24,7 +28,6 @@ app.get("/api/articles/:article_id/comments", getComments);
 app.post("/api/articles/:article_id/comments", postComments);
 app.use(express.json());
 app.patch("/api/articles/:article_id", updateArticleVotes);
-app.use(cors());
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
 });
