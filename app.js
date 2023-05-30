@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const { getTopics } = require("./controllers/topics.controller");
 const {
   getArticlesById,
@@ -23,7 +24,7 @@ app.get("/api/articles/:article_id/comments", getComments);
 app.post("/api/articles/:article_id/comments", postComments);
 app.use(express.json());
 app.patch("/api/articles/:article_id", updateArticleVotes);
-
+app.use(cors());
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
 });
