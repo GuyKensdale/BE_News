@@ -321,3 +321,25 @@ describe("/api/articles/:article_id", () => {
       });
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  it("should delete a comment and return a success message", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    expect(response.body).toEqual({ message: "Comment deleted successfully" });
+  });
+
+  it("should return a 404 error if the comment ID is invalid", () => {
+    return request(app)
+      .delete("/api/comments/999")
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(404);
+
+    expect(response.body).toEqual({ error: "Comment not found" });
+  });
+});

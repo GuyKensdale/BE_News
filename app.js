@@ -11,7 +11,9 @@ const {
   postComments,
   updateArticleVotes,
 } = require("./controllers/post.article.controllers");
-
+const {
+  deleteCommentsController,
+} = require("./controllers/delete.controllers");
 const endPoints = require("./endpoints.json");
 app.use(cors());
 app.use((req, res, next) => {
@@ -28,6 +30,7 @@ app.get("/api/articles/:article_id/comments", getComments);
 app.post("/api/articles/:article_id/comments", postComments);
 app.use(express.json());
 app.patch("/api/articles/:article_id", updateArticleVotes);
+app.delete("/api/comments/:comment_id", deleteCommentsController);
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
 });
@@ -42,3 +45,5 @@ app.use((err, req, res, next) => {
     res.status(500).send({ msg: "Internal Server Error" });
   }
 });
+
+//needs grouping by data type/table instead of delete get etc
